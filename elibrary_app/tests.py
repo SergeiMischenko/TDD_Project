@@ -7,8 +7,36 @@ from .models import Catalog
 from .views import home
 
 
-class CatalogTemplateTests(SimpleTestCase):
+class CatalogViewTests(TestCase):
+    """Тест для представлений"""
+
+    def test_book_list_view(self):
+        Book_1 = Catalog.objects.create(
+            title='Django for Beginners (2018)',
+            ISBN='978-1-60309-0',
+            author='John Doe',
+            price=9.99,
+            availability='true'
+        )
+
+        Book_2 = Catalog.objects.create(
+            title='Django for Professionals (2020)',
+            ISBN='978-1-60309-3',
+            author='Mary Doe',
+            price=11.99,
+            availability='false'
+        )
+
+        response = self.client.get(reverse('home'))
+
+        self.assertIn('Django for Professionals (2020)', response.content.decode())
+        self.assertIn('John Doe', response.content.decode())
+        self.assertIn('978-1-60309-3', response.content.decode())
+
+
+class CatalogTemplateTests(TestCase):
     """Тест шаблона"""
+
     def test_homepage_template(self):
         response = self.client.get(reverse('home'))
         self.assertTemplateUsed(response, 'home.html')
@@ -21,7 +49,8 @@ class CatalogTemplateTests(SimpleTestCase):
         response = self.client.get(reverse('home'))
         self.assertNotContains(response, 'Hello World')
 
-class CatalogFormTests(SimpleTestCase):
+
+class CatalogFormTests(TestCase):
     """Тесты для форм"""
 
     def setUp(self):
@@ -50,7 +79,7 @@ class CatalogFormTests(SimpleTestCase):
         self.assertFalse(add_book_form.is_valid())
 
 
-class ElibraryURLTests(SimpleTestCase):
+class ElibraryURLTests(TestCase):
     """Тест URL-адресов"""
 
     def test_homepage_url_name(self):
