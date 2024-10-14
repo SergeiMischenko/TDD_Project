@@ -1,4 +1,4 @@
-from django.test import SimpleTestCase, TestCase
+from django.test import TestCase
 from django.urls import reverse
 from django.urls.base import resolve
 
@@ -12,42 +12,42 @@ class CatalogViewTests(TestCase):
 
     def test_book_list_view(self):
         Book_1 = Catalog.objects.create(
-            title='Django for Beginners (2018)',
-            ISBN='978-1-60309-0',
-            author='John Doe',
+            title="Django for Beginners (2018)",
+            ISBN="978-1-60309-0",
+            author="John Doe",
             price=9.99,
-            availability='true'
+            availability="true",
         )
 
         Book_2 = Catalog.objects.create(
-            title='Django for Professionals (2020)',
-            ISBN='978-1-60309-3',
-            author='Mary Doe',
+            title="Django for Professionals (2020)",
+            ISBN="978-1-60309-3",
+            author="Mary Doe",
             price=11.99,
-            availability='false'
+            availability="false",
         )
 
-        response = self.client.get(reverse('home'))
+        response = self.client.get(reverse("home"))
 
-        self.assertIn('Django for Professionals (2020)', response.content.decode())
-        self.assertIn('John Doe', response.content.decode())
-        self.assertIn('978-1-60309-3', response.content.decode())
+        self.assertIn("Django for Professionals (2020)", response.content.decode())
+        self.assertIn("John Doe", response.content.decode())
+        self.assertIn("978-1-60309-3", response.content.decode())
 
 
 class CatalogTemplateTests(TestCase):
     """Тест шаблона"""
 
     def test_homepage_template(self):
-        response = self.client.get(reverse('home'))
-        self.assertTemplateUsed(response, 'home.html')
+        response = self.client.get(reverse("home"))
+        self.assertTemplateUsed(response, "home.html")
 
     def test_homepage_contains_correct_html(self):
-        response = self.client.get(reverse('home'))
-        self.assertContains(response, 'E-library Application')
+        response = self.client.get(reverse("home"))
+        self.assertContains(response, "E-library Application")
 
     def test_homepage_does_not_contain_incorrect_html(self):
-        response = self.client.get(reverse('home'))
-        self.assertNotContains(response, 'Hello World')
+        response = self.client.get(reverse("home"))
+        self.assertNotContains(response, "Hello World")
 
 
 class CatalogFormTests(TestCase):
