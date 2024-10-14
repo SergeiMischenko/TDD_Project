@@ -7,6 +7,20 @@ from .models import Catalog
 from .views import home
 
 
+class CatalogTemplateTests(SimpleTestCase):
+    """Тест шаблона"""
+    def test_homepage_template(self):
+        response = self.client.get(reverse('home'))
+        self.assertTemplateUsed(response, 'home.html')
+
+    def test_homepage_contains_correct_html(self):
+        response = self.client.get(reverse('home'))
+        self.assertContains(response, 'E-library Application')
+
+    def test_homepage_does_not_contain_incorrect_html(self):
+        response = self.client.get(reverse('home'))
+        self.assertNotContains(response, 'Hello World')
+
 class CatalogFormTests(SimpleTestCase):
     """Тесты для форм"""
 

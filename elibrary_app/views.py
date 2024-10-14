@@ -8,7 +8,7 @@ def home(request):
 
     return render(
         request,
-        "index.html",
+        "home.html",
         {
             "add_book_form": add_book_form,
         },
