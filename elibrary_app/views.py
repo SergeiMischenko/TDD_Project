@@ -1,5 +1,15 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+
+from .forms import AddBookForm
 
 
 def home(request):
-    return HttpResponse("Hello, world! Welcome to E-Library site.")
+    add_book_form = AddBookForm()
+
+    return render(
+        request,
+        "index.html",
+        {
+            "add_book_form": add_book_form,
+        },
+    )
